@@ -19,11 +19,13 @@ namespace DataStructures
 
         public TreeNode<T> Add(T data)
         {
-            var newNode = new TreeNode<T>(data);
-            newNode.Parent = this;
-            newNode.Depth = Depth + 1;
-            Subtrees.Add(newNode);
+            var newNode = new TreeNode<T>(data)
+            {
+                Parent = this,
+                Depth = Depth + 1
+            };
 
+            Subtrees.Add(newNode);
             return newNode;
         }
 
@@ -44,10 +46,10 @@ namespace DataStructures
 
             static int TraversalDepth(TreeNode<T> node, int maxDepth = 0)
             {
-                
+
                 foreach (var next in node.Subtrees)
                     maxDepth = TraversalDepth(next, maxDepth);
-                
+
                 return maxDepth > node.Depth ? maxDepth : node.Depth;
             }
         }
