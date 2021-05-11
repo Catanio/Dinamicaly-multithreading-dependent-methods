@@ -20,25 +20,8 @@ namespace DataStructures
             table9,
 
         }
-
-        /*
-         * 1
-         * +--2
-         * |  +--5
-         * |
-         * +--3
-         * |  +--6
-         * |  |  +--8
-         * |  |
-         * |  +--9
-         * |
-         * +--4
-         *    +--7
-         * 
-         */
-
+        
         protected Dictionary<Tables, List<Tables>> TableDependencies;
-            
         public TreeNode<Tables> Dependency = new(Tables.root);
 
 

@@ -10,6 +10,23 @@ namespace DataStructures
     {
         public System1()
         {
+
+            /*
+             * 1
+             * +--2
+             * |  +--5
+             * |
+             * +--3
+             * |  +--6
+             * |  |  +--8
+             * |  |
+             * |  +--9
+             * |
+             * +--4
+             *    +--7
+             * 
+             */
+
             TableDependencies = new()
             {
                 {
