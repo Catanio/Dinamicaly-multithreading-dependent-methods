@@ -53,22 +53,49 @@ namespace DataStructures
         void DynamicThreadCreate(List<Tables> selected)
         {
             var tasks = new List<Task>();
+            var done = new List<Tables>();
 
-            var table1 = Dependency.FindTraversal(Tables.table1);
-            var table2 = Dependency.FindTraversal(Tables.table2);
-            var table3 = Dependency.FindTraversal(Tables.table3);
-            var table4 = Dependency.FindTraversal(Tables.table4);
-            var table5 = Dependency.FindTraversal(Tables.table5);
+            var tableValues = Enum.GetValues(typeof(Tables));
+            var totalMembers = tableValues.Length;
 
+            int[] tableDepths = new int[totalMembers];
+            foreach (Tables table in tableValues)
+                tableDepths[(int) table] = Dependency.FindTraversal(table).Depth;
+                
             for (int i = Dependency.TreeDepth() ; i >= 0; i++)
             {
-                if (selected.Contains(Tables.table1) && i == table1.Depth) tasks.Add(Task.Run(Function1));
-                if (selected.Contains(Tables.table2) && i == table2.Depth) tasks.Add(Task.Run(Function2));
-                if (selected.Contains(Tables.table3) && i == table3.Depth) tasks.Add(Task.Run(Function3));
-                if (selected.Contains(Tables.table4) && i == table4.Depth) tasks.Add(Task.Run(Function4));
-                if (selected.Contains(Tables.table5) && i == table5.Depth) tasks.Add(Task.Run(Function5));
+                if (selectedAndNotDone(Tables.table1) && i == tableDepths[(int)Tables.table1]) {
+                    done.Add(Tables.table1);
+                    tasks.Add(Task.Run(Function1));
+                }
+
+                if (selectedAndNotDone(Tables.table2) && i == tableDepths[(int)Tables.table2]) {
+                    done.Add(Tables.table2);
+                    tasks.Add(Task.Run(Function2));
+                }
+
+                if (selectedAndNotDone(Tables.table3) && i == tableDepths[(int)Tables.table3]) {
+                    done.Add(Tables.table3);
+                    tasks.Add(Task.Run(Function3));
+                }
+
+                if (selectedAndNotDone(Tables.table4) && i == tableDepths[(int)Tables.table4]) {
+                    done.Add(Tables.table4);
+                    tasks.Add(Task.Run(Function4));
+                }
+
+                if (selectedAndNotDone(Tables.table5) && i == tableDepths[(int)Tables.table5]) {
+                    done.Add(Tables.table5);
+                    tasks.Add(Task.Run(Function5));
+                }
+
 
                 Task.WaitAll(tasks.ToArray());
+            }
+
+            bool selectedAndNotDone(Tables table)
+            {
+                return selected.Contains(table) && !done.Contains(table);
             }
         }
     }
