@@ -17,6 +17,7 @@ namespace DataStructures
             Subtrees = new List<TreeNode<T>>(); ;
         }
 
+
         public TreeNode<T> Add(T data)
         {
             var newNode = new TreeNode<T>(data)
@@ -27,6 +28,14 @@ namespace DataStructures
 
             Subtrees.Add(newNode);
             return newNode;
+        }
+
+        public TreeNode<T> AddRange(IEnumerable<T> collection)
+        {
+            foreach(var element in collection)
+                this.Add(element);
+
+            return this;
         }
 
         public TreeNode<T> FindRoot()
