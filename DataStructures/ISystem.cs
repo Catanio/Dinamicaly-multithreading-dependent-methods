@@ -21,7 +21,7 @@ namespace DataStructures
 
         }
         
-        protected Dictionary<Tables, List<Tables>> TableDependencies;
+        protected TreeNode<Tables> TableDependencies = new(Tables.root);
         public TreeNode<Tables> Dependency = new(Tables.root);
 
 

@@ -26,28 +26,17 @@ namespace DataStructures
              *    +--7
              * 
              */
+            TableDependencies.Add(Tables.table1)
+                .AddRange(new[] { Tables.table2, Tables.table3, Tables.table4 });
 
-            TableDependencies = new()
-            {
-                {
-                    Tables.table1,
-                    new List<Tables> { Tables.table2, Tables.table3, Tables.table4 }
-                },
-                {
-                    Tables.table2,
-                    new List<Tables> { Tables.table5 }
-                },
-                {
-                    Tables.table3,
-                    new List<Tables> { Tables.table6, Tables.table9 }
-                },
-                {
-                    Tables.table4,
-                    new List<Tables> { Tables.table7 }
-                },
-            };
+            TableDependencies.Add(Tables.table2)
+                    .AddRange(new[] { Tables.table5 });
 
+            TableDependencies.Add(Tables.table3)
+                .AddRange(new[] { Tables.table6, Tables.table9 });
 
+            TableDependencies.Add(Tables.table4)
+                .AddRange(new[] { Tables.table7 });
         }
     }
 }
