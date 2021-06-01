@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DataStructures.Definitions;
 
 namespace DataStructures
 {
-    class System1: ISystem
+    class SystemA: ISystem
     {
-        public System1()
+        public SystemA()
         {
 
             /*
@@ -30,7 +26,7 @@ namespace DataStructures
                 .AddRange(new[] { Tables.table2, Tables.table3, Tables.table4 });
 
             TableDependencies.Add(Tables.table2)
-                    .AddRange(new[] { Tables.table5 });
+                .AddRange(new[] { Tables.table5 });
 
             TableDependencies.Add(Tables.table3)
                 .AddRange(new[] { Tables.table6, Tables.table9 });

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataStructures.Definitions;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,51 +7,50 @@ namespace DataStructures
 {
     abstract class ISystem
     {
-        public enum Tables
-        {
-            root,
-            table1,
-            table2,
-            table3,
-            table4,
-            table5,
-            table6,
-            table7,
-            table8,
-            table9,
-
-        }
-        
         protected TreeNode<Tables> TableDependencies = new(Tables.root);
         public TreeNode<Tables> Dependency = new(Tables.root);
 
 
-        void Function1()
+        void ExtractFunction1()
         {
             Console.WriteLine("Função 1 foi chamada");
         }
 
-        void Function2()
+        void ExtractFunction2()
         {
             Console.WriteLine("Função 2 foi chamada");
         }
 
-        void Function3()
+        void ExtractFunction3()
         {
             Console.WriteLine("Função 3 foi chamada");
         }
 
-        void Function4()
+        void ExtractFunction4()
         {
             Console.WriteLine("Função 4 foi chamada");
         }
 
-        void Function5()
+        void ExtractFunction5()
         {
             Console.WriteLine("Função 5 foi chamada");
         }
 
-        void DynamicThreadCreate(List<Tables> selected)
+        public Action GetExtractionMethod(Tables table)
+        {
+            return table switch
+            {
+                Tables.table1 => ExtractFunction1,
+                Tables.table2 => ExtractFunction2,
+                Tables.table3 => ExtractFunction3,
+                Tables.table4 => ExtractFunction4,
+                Tables.table5 => ExtractFunction5,
+                _ =>throw new ArgumentOutOfRangeException($"Can't extract table {table} as it doesn't exist")
+            };
+        }
+
+
+        void RunExtractionAsync(List<Tables> selected)
         {
             var tasks = new List<Task>();
             var done = new List<Tables>();
@@ -62,40 +62,18 @@ namespace DataStructures
             foreach (Tables table in tableValues)
                 tableDepths[(int) table] = Dependency.FindTraversal(table).Depth;
                 
-            for (int i = Dependency.TreeDepth() ; i >= 0; i++)
+            for (int depthTurn = Dependency.TreeDepth() ; depthTurn >= 0; depthTurn++)
             {
-                if (selectedAndNotDone(Tables.table1) && i == tableDepths[(int)Tables.table1]) {
-                    done.Add(Tables.table1);
-                    tasks.Add(Task.Run(Function1));
+                foreach(Tables table in tableValues)
+                {
+                    if (depthTurn == tableDepths[(int)table] && selected.Contains(table) && !done.Contains(table))
+                    {
+                        done.Add(table);
+                        tasks.Add(Task.Run(GetExtractionMethod(table)));
+                    }
                 }
-
-                if (selectedAndNotDone(Tables.table2) && i == tableDepths[(int)Tables.table2]) {
-                    done.Add(Tables.table2);
-                    tasks.Add(Task.Run(Function2));
-                }
-
-                if (selectedAndNotDone(Tables.table3) && i == tableDepths[(int)Tables.table3]) {
-                    done.Add(Tables.table3);
-                    tasks.Add(Task.Run(Function3));
-                }
-
-                if (selectedAndNotDone(Tables.table4) && i == tableDepths[(int)Tables.table4]) {
-                    done.Add(Tables.table4);
-                    tasks.Add(Task.Run(Function4));
-                }
-
-                if (selectedAndNotDone(Tables.table5) && i == tableDepths[(int)Tables.table5]) {
-                    done.Add(Tables.table5);
-                    tasks.Add(Task.Run(Function5));
-                }
-
 
                 Task.WaitAll(tasks.ToArray());
-            }
-
-            bool selectedAndNotDone(Tables table)
-            {
-                return selected.Contains(table) && !done.Contains(table);
             }
         }
     }
