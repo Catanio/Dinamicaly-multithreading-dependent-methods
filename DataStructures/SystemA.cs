@@ -1,8 +1,9 @@
 ﻿using DataStructures.Definitions;
+using System;
 
 namespace DataStructures
 {
-    class SystemA: ISystem
+    public class SystemA: ISystem
     {
         public SystemA()
         {
@@ -33,6 +34,32 @@ namespace DataStructures
 
             TableDependencies.Add(Tables.table4)
                 .AddRange(new[] { Tables.table7 });
+
+        }
+
+        protected override void ExtractFunction1()
+        {
+            Console.WriteLine("Função 1 foi chamada");
+        }
+
+        protected override void ExtractFunction2()
+        {
+            Console.WriteLine("Função 2 foi chamada");
+        }
+
+        protected override void ExtractFunction3()
+        {
+            Console.WriteLine("Função 3 foi chamada");
+        }
+
+        protected override void ExtractFunction4()
+        {
+            Console.WriteLine("Função 4 foi chamada");
+        }
+
+        protected override void ExtractFunction5()
+        {
+            Console.WriteLine("Função 5 foi chamada");
         }
     }
 }

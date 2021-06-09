@@ -20,11 +20,11 @@ namespace DataStructures.Definitions
         table9,
     }
 
-    public enum System
+    public enum SystemTypes
     {
-        system_A,
+        System_A,
         System_B,
-        System_C
+        System_C,
     }
 
 }
