@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace DataStructures
 {
-    public class TreeNode<T>
+    public class TreeNode<T>: IEnumerable<TreeNode<T>>
     {
         public T Data;
         public int Depth;
@@ -63,8 +64,6 @@ namespace DataStructures
             }
         }
 
-        public TreeNode<T> FindTraversal(T key) => FindRoot().Traversal(key);
-
         public void Remeasure()
         {
             Depth = Parent == null ? 0 : Parent.Depth + 1;
@@ -72,7 +71,14 @@ namespace DataStructures
                 foreach (var next in Subtrees)
                     next.Remeasure();
         }
+        public TreeNode<T> FindInTree(T key)
+        {
+            foreach (var i in this.FindRoot())
+                if (key.Equals(i.Data))
+                    return i;
 
+            return null;
+        }
         public void JoinBranch(TreeNode<T> sub)
         {
             Subtrees.Add(sub);
@@ -80,18 +86,20 @@ namespace DataStructures
             FindRoot().Remeasure();
         }
 
-        private TreeNode<T> Traversal(T key)
+        //TODO: implement a pre-order and post-order retrival
+        public IEnumerator<TreeNode<T>> GetEnumerator()
         {
-            if (Data.Equals(key)) return this;
+            yield return this;
 
-            if (Subtrees.Count > 0)
-                foreach (var next in Subtrees)
-                {
-                    var a = next.Traversal(key);
-                    if (a != null) return a;
-                }
+            foreach (var childNode in Subtrees)
+                foreach (var childEnumerated in childNode)
+                    yield return childEnumerated;
 
-            return null;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
         }
     }
 }

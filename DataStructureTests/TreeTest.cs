@@ -27,15 +27,15 @@ namespace DataStructureTests
             root.Add(3).Add(6);
             root.Add(4);
                 
-            Assert.AreEqual(6, root.FindTraversal(6).Data);
-            Assert.AreEqual(2, root.FindTraversal(6).Depth);
+            Assert.AreEqual(6, root.FindInTree(6).Data);
+            Assert.AreEqual(2, root.FindInTree(6).Depth);
 
-            Assert.AreEqual(1, root.FindTraversal(1).Data);
-            Assert.AreEqual(0, root.FindTraversal(1).Depth);
+            Assert.AreEqual(1, root.FindInTree(1).Data);
+            Assert.AreEqual(0, root.FindInTree(1).Depth);
 
-            Assert.AreEqual(4, root.FindTraversal(4).Data);
-            Assert.AreEqual(1, root.FindTraversal(4).Depth);
-            root.FindTraversal(5);
+            Assert.AreEqual(4, root.FindInTree(4).Data);
+            Assert.AreEqual(1, root.FindInTree(4).Depth);
+            root.FindInTree(5);
         }
         [TestMethod]
         public void MeasureDepth()
@@ -99,15 +99,44 @@ namespace DataStructureTests
             //Act
             joinPoint.JoinBranch(root2);
 
+
+            // Assert
             Assert.AreEqual(joinPoint.Data, 6);
             Assert.AreEqual(joinPoint.Depth, 2);
 
-            Assert.AreEqual(root1.FindTraversal(7).Parent.Data, 6);
-            Assert.AreEqual(root1.FindTraversal(7).Depth, 3);
+            Assert.AreEqual(root1.FindInTree(7).Parent.Data, 6);
+            Assert.AreEqual(root1.FindInTree(7).Depth, 3);
             
             Assert.AreEqual(leafNode.Parent.Data, 7);
             Assert.AreEqual(leafNode.Data, 8);
             Assert.AreEqual(leafNode.Depth, 4);
+        }
+
+        [TestMethod]
+        public void Foreach_InOrder()
+        {
+            
+            // Arranje
+            var root = new TreeNode<char>('a');
+            root.AddRange(new[] { 'b', 'c', 'd' });
+            root.Add('e').AddRange(new[] { 'f', 'g' });
+
+            var rawValues = new[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g' };
+            var nodeValues = new char[rawValues.Length];
+
+
+            // Act
+            var i = 0;
+            foreach (var node in root)
+            {
+                nodeValues[i] = node.Data;
+                i++;
+            }
+
+            // Assert
+            for(i = 0; (i < rawValues.Length); i++)
+                Assert.AreEqual(rawValues[i], nodeValues[i]);
+
         }
     }
 }
