@@ -5,35 +5,30 @@ using System.Threading.Tasks;
 
 namespace DataStructures
 {
-    abstract class ISystem
+    public abstract class ISystem
     {
         protected TreeNode<Tables> TableDependencies = new(Tables.root);
-        public TreeNode<Tables> Dependency = new(Tables.root);
+
+        public TreeNode<Tables> Dependencies { get; set; }
 
 
-        void ExtractFunction1()
+        protected abstract void ExtractFunction1();
+
+        protected abstract void ExtractFunction2();
+
+        protected abstract void ExtractFunction3();
+
+        protected abstract void ExtractFunction4();
+
+        protected abstract void ExtractFunction5();
+
+        public TreeNode<Tables> MountDependencyTree()
         {
-            Console.WriteLine("Função 1 foi chamada");
-        }
+            var root = new TreeNode<Tables>(Tables.root);
 
-        void ExtractFunction2()
-        {
-            Console.WriteLine("Função 2 foi chamada");
-        }
 
-        void ExtractFunction3()
-        {
-            Console.WriteLine("Função 3 foi chamada");
-        }
 
-        void ExtractFunction4()
-        {
-            Console.WriteLine("Função 4 foi chamada");
-        }
-
-        void ExtractFunction5()
-        {
-            Console.WriteLine("Função 5 foi chamada");
+            return Dependencies;
         }
 
         public Action GetExtractionMethod(Tables table)
@@ -50,7 +45,7 @@ namespace DataStructures
         }
 
 
-        void RunExtractionAsync(List<Tables> selected)
+        public void RunExtractionAsync(List<Tables> selected)
         {
             var tasks = new List<Task>();
             var done = new List<Tables>();
@@ -60,9 +55,9 @@ namespace DataStructures
 
             int[] tableDepths = new int[totalMembers];
             foreach (Tables table in tableValues)
-                tableDepths[(int) table] = Dependency.FindTraversal(table).Depth;
+                tableDepths[(int) table] = Dependencies.FindInTree(table).Depth;
                 
-            for (int depthTurn = Dependency.TreeDepth() ; depthTurn >= 0; depthTurn++)
+            for (int depthTurn = Dependencies.TreeDepth() ; depthTurn >= 0; depthTurn++)
             {
                 foreach(Tables table in tableValues)
                 {
