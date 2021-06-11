@@ -1,6 +1,7 @@
 using DataStructures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
 
 namespace DataStructureTests
 {
@@ -138,5 +139,37 @@ namespace DataStructureTests
                 Assert.AreEqual(rawValues[i], nodeValues[i]);
 
         }
+
+        [TestMethod]
+        public void Cutting()
+        {
+
+            // Arranje
+            var rawValuesA = new List<char>{ 'a', 'c', 'd', 'e', 'f', 'g'};
+            var rawValuesB = new List<char>{ 'b', 'x', 'y' };
+
+            var root = new TreeNode<char>('a');
+            root.AddRange(new[] { 'b', 'c', 'd' });
+            root.Add('e').AddRange(new[] { 'f', 'g' });
+
+            var branchB = root.FindInTree('b');
+            branchB.AddRange(new[] { 'x', 'y' });
+
+            // Act
+            var branchA= branchB.Cut();
+
+
+            // Assert
+            
+            Assert.AreEqual(branchA.CountTreeNodes(), 6);
+            Assert.AreEqual(branchB.CountBranchNodes(), 3);
+            
+            foreach (var node in branchB)
+                Assert.IsTrue(rawValuesB.Contains(node.Data));
+
+            foreach (var node in branchA)
+                Assert.IsTrue(rawValuesA.Contains(node.Data));
+        }
+
     }
 }

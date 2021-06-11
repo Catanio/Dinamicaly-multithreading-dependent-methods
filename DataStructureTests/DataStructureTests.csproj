@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DataStructures\DataStructures.csproj" />
+    <ProjectReference Include="..\DataStructures\Multithread ETL.csproj" />
   </ItemGroup>
 
 </Project>
