@@ -71,6 +71,25 @@ namespace DataStructures
                 foreach (var next in Subtrees)
                     next.Remeasure();
         }
+
+        public int CountTreeNodes()
+        {
+            var count = 0;
+            foreach (var node in this.FindRoot())
+                count++;
+
+            return count;
+        }
+
+        public int CountBranchNodes()
+        {
+            var count = 0;
+            foreach (var node in this)
+                count++;
+
+            return count;
+        }
+
         public TreeNode<T> FindInTree(T key)
         {
             foreach (var i in this.FindRoot())
@@ -79,11 +98,29 @@ namespace DataStructures
 
             return null;
         }
+
         public void JoinBranch(TreeNode<T> sub)
         {
             Subtrees.Add(sub);
             sub.Parent = this;
             FindRoot().Remeasure();
+        }
+
+        /// <summary>
+        /// Remove the branch from tree, unassociating it's parent
+        /// </summary>
+        /// <returns>tree root from where it was removed</returns>
+        public TreeNode<T> Cut()
+        {
+            var root = FindRoot();
+
+            Parent.Subtrees.Remove(this);
+            Parent = null;
+
+            root.Remeasure();
+            this.Remeasure();
+
+            return root;
         }
 
         //TODO: implement a pre-order and post-order retrival
